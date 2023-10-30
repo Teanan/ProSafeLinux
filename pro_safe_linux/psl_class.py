@@ -10,7 +10,7 @@ import struct
 import socket
 import select
 import fcntl
-import psl_typ
+from pro_safe_linux import psl_typ
 import inspect
 import errno
 

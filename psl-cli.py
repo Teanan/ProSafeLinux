@@ -4,8 +4,8 @@
 
 import argparse
 import sys
-from psl_class import ProSafeLinux
-import psl_typ
+from pro_safe_linux.psl_class import ProSafeLinux
+from pro_safe_linux import psl_typ
 
 # pylint: disable=W0613
 
