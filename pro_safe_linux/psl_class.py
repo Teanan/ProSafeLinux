@@ -79,7 +79,8 @@ class ProSafeLinux:
     CMD_REBOOT = psl_typ.PslTypAction(0x0013, "reboot")
     CMD_ENHANCEDENCRYPTION = psl_typ.PslTypHex(0x0014, "enhanced_encryption")
     CMD_PASSWORD_NONCE = psl_typ.PslTypHexNoQuery(0x0017, "password_nonce")
-    CMD_PASSWORD_HASH = psl_typ.PslTypHexNoQuery(0x001a, "password_hash")
+    CMD_PASSWORD_HASH32 = psl_typ.PslTypHexNoQuery(0x0018, "password_hash_32")
+    CMD_PASSWORD_HASH64 = psl_typ.PslTypHexNoQuery(0x001a, "password_hash_64")
     CMD_FACTORY_RESET = psl_typ.PslTypAction(0x0400, "factory_reset")
     CMD_PORT_STATUS = psl_typ.PslTypPortStatus(0x0c00, "port_status")
     CMD_PORT_STAT = psl_typ.PslTypPortStat(0x1000, "port_stat")
@@ -531,7 +532,7 @@ class ProSafeLinux:
                     _hashpass[idx] ^= ord(password[i])
 
                 _hashpass = struct.pack(">BBBB", *_hashpass)
-                data = self.addudp(self.CMD_PASSWORD_HASH, binascii.hexlify(_hashpass))
+                data = self.addudp(self.CMD_PASSWORD_HASH32, binascii.hexlify(_hashpass))
             else:
                 _hashpass += _hashpass;
 
@@ -544,7 +545,7 @@ class ProSafeLinux:
                         _hashpass[7] ^= ord(password[i])
 
                 _hashpass = struct.pack(">BBBBBBBB", *_hashpass)
-                data = self.addudp(self.CMD_PASSWORD_HASH, binascii.hexlify(_hashpass))
+                data = self.addudp(self.CMD_PASSWORD_HASH64, binascii.hexlify(_hashpass))
         else:
             return { 'error' : 'Unknown encryption type 0x%02x' % enc }
 
@@ -610,7 +611,7 @@ class ProSafeLinux:
                     _hashpass[idx] ^= ord(password[i])
 
                 _hashpass = struct.pack(">BBBB", *_hashpass)
-                data = self.addudp(self.CMD_HASH, binascii.hexlify(_hashpass))
+                data = self.addudp(self.CMD_PASSWORD_HASH32, binascii.hexlify(_hashpass))
             else:
 
                 _hashpass += _hashpass;
@@ -624,7 +625,7 @@ class ProSafeLinux:
                         _hashpass[7] ^= ord(password[i])
 
                 _hashpass = struct.pack(">BBBBBBBB", *_hashpass)
-                data = self.addudp(self.CMD_PASSWORD_HASH, binascii.hexlify(_hashpass))
+                data = self.addudp(self.CMD_PASSWORD_HASH64, binascii.hexlify(_hashpass))
         else:
             return { 'error' : 'Unknown encryption type 0x%02x' % enc }
 
